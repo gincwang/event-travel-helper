@@ -1,0 +1,79 @@
+import React from 'react';
+
+let style = {
+    header: {
+        width: '100%',
+        padding: '30px 0 50px',
+        backgroundColor: 'lightBlue',
+        textAlign: 'left'
+    },
+    title: {
+        margin: '0 0 0 10px',
+        fontSize: '1.5em',
+        fontWeight: 'bold'
+    },
+    subTitle: {
+
+    }
+};
+
+class SearchBar extends React.Component {
+    constructor(props){
+        super(props);
+        this.state = {
+            searchText: '',
+            ww: window.innerWidth,
+            focus: false
+        };
+    }
+    componentDidMount(){
+        var self = this;
+        window.onresize = function(){
+            self.setState({ww: window.innerWidth});
+        }
+    }
+    handleChange(e){
+        this.setState({searchText: e.target.value});
+    }
+    onSubmit(e){
+        e.preventDefault();
+        console.log(this.state.searchText);
+    }
+    calcInputStyle(){
+        let widthMultiplier = this.state.focus ? 0.5 : 0.3;
+        let style = {
+            fontSize: '1.5em',
+            display: 'block',
+            transition: 'all 0.3s ease'
+        };
+
+        if(this.state.ww > 960){
+            style.width = this.state.ww * widthMultiplier;
+            style.margin = '10px 0 0 50px';
+        }
+        else {
+            style.width = this.state.ww * 0.9;
+            style.margin = '10px auto 0';
+        }
+        return style;
+    }
+    handleFocus(){
+        console.log('focus');
+        this.setState({focus: true});
+    }
+    handleBlur(){
+        this.setState({focus: false});
+    }
+    render(){
+        return (
+            <div style={style.header}>
+                <div><span style={style.title}>Event Travel Helper</span> - <span style={style.subTitle}>Search for your favorite events or shows</span></div>
+                <form onSubmit={this.onSubmit.bind(this)}>
+                    <input style={this.calcInputStyle()} type='text' value={this.state.searchText} onChange={this.handleChange.bind(this)} onFocus={this.handleFocus.bind(this)} onBlur={this.handleBlur.bind(this)} />
+                </form>
+            </div>
+        );
+    }
+}
+
+export default SearchBar;
