@@ -1,4 +1,5 @@
 import React from 'react';
+import WebAPIActions from '../actions/WebAPIActions';
 
 let style = {
     header: {
@@ -38,6 +39,7 @@ class SearchBar extends React.Component {
     onSubmit(e){
         e.preventDefault();
         console.log(this.state.searchText);
+        WebAPIActions.requestEvents(this.state.searchText);
     }
     calcInputStyle(){
         let widthMultiplier = this.state.focus ? 0.5 : 0.3;

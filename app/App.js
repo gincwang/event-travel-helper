@@ -1,7 +1,11 @@
 import React from "react";
 import ReactDOM from "react-DOM";
 import SearchBar from './components/SearchBar';
+import EventView from './components/EventView';
 
 ReactDOM.render((
-    <SearchBar />
+    <div>
+        <SearchBar />
+        <EventView />
+    </div>
 ), document.getElementById("app"));
