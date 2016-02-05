@@ -1,5 +1,7 @@
 import React from 'react';
 import WebAPIActions from '../actions/WebAPIActions';
+import {Link} from 'react-router';
+
 
 let style = {
     header: {
@@ -40,6 +42,7 @@ class SearchBar extends React.Component {
         e.preventDefault();
         console.log(this.state.searchText);
         WebAPIActions.requestEvents(this.state.searchText);
+        this.context.router.push('search');
     }
     calcInputStyle(){
         let widthMultiplier = this.state.focus ? 0.5 : 0.3;
@@ -73,9 +76,12 @@ class SearchBar extends React.Component {
                 <form onSubmit={this.onSubmit.bind(this)}>
                     <input style={this.calcInputStyle()} type='text' value={this.state.searchText} onChange={this.handleChange.bind(this)} onFocus={this.handleFocus.bind(this)} onBlur={this.handleBlur.bind(this)} />
                 </form>
+                <Link to='/search'>search</Link>
             </div>
         );
     }
 }
+
+SearchBar.contextTypes = { router: React.PropTypes.object.isRequired };
 
 export default SearchBar;
