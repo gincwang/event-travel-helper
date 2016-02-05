@@ -16,8 +16,12 @@ let style = {
         backgroundColor: 'white'
     },
     img: {
+        width: '280px'
+    },
+    imgDiv: {
+        margin: '10px',
         height: '150px',
-        padding: '10px'
+        overflow: 'hidden'
     },
     title: {
         fontWeight: 'bold',
@@ -51,7 +55,7 @@ class EventView extends React.Component {
             <div>
                 <ul style={style.ul}>
                     {this.props.events.map((event) => {
-                        let img = <img style={style.img} src='app/asset/img/dummyImg.jpg' />;
+                        let img = <img style={style.img} src='../../app/asset/img/dummyImg.jpg' />;
                         let venue = '';
                         if(event.logo){
                             img = <img style={style.img} src={event.logo.url} />;
@@ -59,16 +63,17 @@ class EventView extends React.Component {
                         if(event.venue){
                             venue = <div><p>{event.venue.name}</p><p>{event.venue.address.city}, {event.venue.address.region}</p></div>;
                         }
-                        return (<li style={style.li} key={event.id} alt='logo' onClick={this.handleClick.bind(this, event.id)}>
-                                    <div>
-                                        {img}
-                                    </div>
-                                    <div style={style.info}>
-                                        <p>{moment.utc((event.start.utc)).format('ddd, MMM Do - h:mmA')}</p>
-                                        <p style={style.title}>{event.name.html}</p>
-                                        {venue}
-                                    </div>
-                                </li>
+                        return (
+                            <li style={style.li} key={event.id} alt='logo' onClick={this.handleClick.bind(this, event.id)}>
+                                <div style={style.imgDiv}>
+                                    {img}
+                                </div>
+                                <div style={style.info}>
+                                    <p>{moment.utc((event.start.utc)).format('ddd, MMM Do - h:mmA')}</p>
+                                    <p style={style.title}>{event.name.html}</p>
+                                    {venue}
+                                </div>
+                            </li>
                         );
                     })}
                 </ul>
