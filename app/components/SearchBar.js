@@ -41,6 +41,9 @@ class SearchBar extends React.Component {
     onSubmit(e){
         e.preventDefault();
         console.log(this.state.searchText);
+        if(!this.state.searchText){
+            return;
+        }
         WebAPIActions.requestEvents(this.state.searchText);
         let encodedURI = encodeURIComponent(this.state.searchText);
         this.context.router.push({pathname:'/search/'+ encodedURI});
@@ -75,7 +78,7 @@ class SearchBar extends React.Component {
             <div style={style.header}>
                 <div><span style={style.title}>Event Travel Helper</span> - <span style={style.subTitle}>Search for your favorite events or shows</span></div>
                 <form onSubmit={this.onSubmit.bind(this)}>
-                    <input style={this.calcInputStyle()} type='text' value={this.state.searchText} onChange={this.handleChange.bind(this)} onFocus={this.handleFocus.bind(this)} onBlur={this.handleBlur.bind(this)} />
+                    <input style={this.calcInputStyle()} type='text' value={this.state.searchText} placeholder='Search for events or shows' onChange={this.handleChange.bind(this)} onFocus={this.handleFocus.bind(this)} onBlur={this.handleBlur.bind(this)} />
                 </form>
             </div>
         );

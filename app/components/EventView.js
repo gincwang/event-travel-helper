@@ -31,6 +31,11 @@ let style = {
         display: 'flex',
         flexFlow: 'column nowrap',
         justifyContent: 'space-between'
+    },
+    loadingText: {
+        position: 'block',
+        textAlign: 'center',
+        margin: '50px'
     }
 }
 
@@ -42,13 +47,23 @@ class EventView extends React.Component {
         return WebAPIStore.getState();
     }
     handleClick(id){
-        console.log(id);
+        let detail = this.getDetails(id);
+        console.log(detail);
+        this.context.router.push({pathname: '/detail/'+id, state: {event: detail}});
+    }
+    getDetails(id){
+        let details;
+        this.props.events.forEach( (event) => {
+            if(event.id === id){
+                details = event;
+            }
+        });
+        return details;
     }
     render(){
         console.log('eventView: ');
-        console.log(this.props.events);
         if(!this.props.events.length){
-            return <div>Your events will be displayed here</div>;
+            return <div style={style.loadingText}>We are currently loading your events...</div>;
         }
 
         return (
@@ -69,7 +84,7 @@ class EventView extends React.Component {
                                     {img}
                                 </div>
                                 <div style={style.info}>
-                                    <p>{moment.utc((event.start.utc)).format('ddd, MMM Do - h:mmA')}</p>
+                                    <p>{moment((event.start.local)).format('ddd, MMM Do - ha')}</p>
                                     <p style={style.title}>{event.name.html}</p>
                                     {venue}
                                 </div>
@@ -83,5 +98,7 @@ class EventView extends React.Component {
 
     }
 }
+
+EventView.contextTypes = { router: React.PropTypes.object.isRequired };
 
 export default connectToStores(EventView);
