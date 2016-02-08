@@ -7,7 +7,7 @@ class Landing extends React.Component {
     render(){
         return (
             <div>
-                <h2>Want to find out how much it costs to book the event that you really wanted to go?</h2>
+                <h2>Want to find out how much it costs to travel to the event that you really wanted to go?</h2>
                 <h3>It is as simple as three steps:</h3>
                 <ul>
                     <li>Search for your favorite events</li>

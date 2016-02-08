@@ -1,5 +1,7 @@
 import React from 'react'
 import moment from 'moment'
+import expediaAPI from '../lib/expediaAPI'
+import AirFares from './AirFares'
 
 let style = {
     tickets: {
@@ -7,6 +9,27 @@ let style = {
     },
     description: {
 
+    },
+    table: {
+        width: '100%',
+        border: '1px solid black',
+        margin: '15px 0',
+        borderCollapse: 'separate',
+        borderRadius: '5px',
+        textAlign: ''
+    },
+    thRow: {
+        height: '50px',
+    },
+    tbRow: {
+        height: '40px',
+        borderTop: '1px solid gray'
+    },
+    td: {
+        padding: '10px 15px'
+    },
+    th: {
+        padding: '10px 15px'
     }
 }
 
@@ -29,15 +52,15 @@ class EventDetail extends React.Component {
                         fee = '0.00';
                     }
                 }
-                return <tr key={index}><td>{ticket.name}</td><td>{price}</td><td>{fee}</td></tr>;
+                return <tr key={index} style={style.tbRow}><td style={style.td}>{ticket.name}</td><td style={style.td}>{price}</td><td style={style.td}>{fee}</td></tr>;
             });
             return (
-                <table>
+                <table style={style.table}>
                     <thead>
-                        <tr>
-                            <th>Registration Type</th>
-                            <th>Price</th>
-                            <th>Fee</th>
+                        <tr style={style.thRow}>
+                            <th style={style.th}>Registration Type</th>
+                            <th style={style.th}>Price</th>
+                            <th style={style.th}>Fee</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -54,10 +77,22 @@ class EventDetail extends React.Component {
             let description = {
                 __html: event.description.html
             };
-            return <div dangerouslySetInnerHTML={description} />;
+            return <div>
+                        <h3>Event Description</h3>
+                        <div dangerouslySetInnerHTML={description} />
+                    </div>;
         }
         else {
             return null;
+        }
+    }
+    renderVenue(event){
+        let venue;
+        if(event.venue){
+            return  <div>
+                        <h4>{event.venue.name}</h4>
+                        <h4>{event.venue.address.city}, {event.venue.address.region}</h4>
+                    </div>;
         }
     }
     renderDates(event){
@@ -70,30 +105,32 @@ class EventDetail extends React.Component {
         else if ( moment(start).isSame(end, 'month') ){     //same-month event return date ranges
             return start.format('dddd, MMMM Do~') + end.format('Do');
         }
-        else {
+        else {                                              //return the entire dates
             return start.format('dddd, MMM Do, ha~') + end.format('dddd, MMMM Do, ha');
         }
     }
     render(){
         let event = this.props.location.state.event;
-        let tickets, description, dates;
+        let tickets, description, dates, venue;
         tickets = this.renderTicket(event);
         description = this.renderDescription(event);
         dates = this.renderDates(event);
-
+        venue = this.renderVenue(event);
         return (
             <div className='container'>
                 <div className='row'>
                     <div className='col-md-7'>
                         <h2>{event.name.text}</h2>
                         <h3>{dates}</h3>
-                        <h4>{event.venue.name}</h4>
-                        <h4>{event.venue.address.city}, {event.venue.address.region}</h4>
+                        {venue}
+                        <hr/>
                         <div style={style.tickets}>{tickets}</div>
+                        <hr/>
                         <div style={style.description}>{description}</div>
+                        <a href={event.url} target='_blank'>Eventbrite Link</a>
                     </div>
                     <div className='col-md-5'>
-                        SideBar
+                        <AirFares />
                     </div>
                 </div>
             </div>

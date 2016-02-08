@@ -6,12 +6,16 @@ class WebAPIStore {
         this.bindListeners({
             handleEvents: WebAPIActions.requestEvents,
             handleUpdateEvents: WebAPIActions.updateEvents,
-            handleFlights: WebAPIActions.requestFlights
+            handleFlights: WebAPIActions.requestFlights,
+            handleRequestAirports: WebAPIActions.requestAirports,
+            handleUpdateAirports: WebAPIActions.updateAirports
         });
 
         this.state = {
             events: [],
-            flights: []
+            flights: [],
+            origAirports: [],
+            destAirports: []
         };
     }
     handleEvents(){
@@ -24,6 +28,13 @@ class WebAPIStore {
     }
     handleFlights(date){
         console.log('store: ' + date);
+    }
+    handleRequestAirports(){
+        console.log('requesting airport');
+    }
+    handleUpdateAirports(airports){
+        console.log('store_handleAirports');
+        this.setState({destAirports: airports});
     }
 
 }

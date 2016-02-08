@@ -1,6 +1,7 @@
 import React from 'react';
 import connectToStores from 'alt-utils/lib/connectToStores';
 import WebAPIStore from '../stores/WebAPIStore';
+import WebAPIActions from '../actions/WebAPIActions';
 import moment from 'moment';
 
 let style = {
@@ -49,6 +50,9 @@ class EventView extends React.Component {
     handleClick(id){
         let detail = this.getDetails(id);
         console.log(detail);
+        if(detail.venue){
+            WebAPIActions.requestAirports(detail.venue.address);
+        }
         this.context.router.push({pathname: '/detail/'+id, state: {event: detail}});
     }
     getDetails(id){

@@ -53,7 +53,8 @@ class SearchBar extends React.Component {
         let style = {
             fontSize: '1.5em',
             display: 'block',
-            transition: 'all 0.3s ease'
+            transition: 'all 0.3s ease',
+            paddingLeft: '7px'
         };
 
         if(this.state.ww > 960){
